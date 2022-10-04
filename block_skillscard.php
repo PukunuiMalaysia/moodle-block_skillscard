@@ -73,8 +73,9 @@ class block_skillscard extends block_base {
             $grade = $scales[$sc->grade-1];
             $skill = $sc->compname;
             
-            $li .= '<li text-align : center><span><i class="fa fa-trophy fa-5x text-primary" style="float:left; padding: 10px;"></i></span><br>'. 
-            get_string('rank', 'block_skillscard') . " " . $grade . '<br>' . get_string('competency', 'block_skillscard') . ' ' . $skill . '</li>
+            $li .= '<li text-align : center><span><i class="fa fa-trophy fa-5x text-primary" 
+            style="float:left; padding: 10px;"></i></span><br>'. get_string('rank', 'block_skillscard') . " " . 
+            $grade . '<br>' . get_string('competency', 'block_skillscard') . ' ' . $skill . '</li>
             <div style="clear:both;"></div>';
         }
 
