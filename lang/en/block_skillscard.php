@@ -24,7 +24,7 @@
 
 $string['pluginname'] = 'Skills Card plugin';
 $string['skillscard'] = 'Skills Card';
-$string['noskillscard'] = 'No Skills Card';
+$string['noskillscard'] = 'No skills card';
 $string['competency'] = 'Competency';
 $string['rank'] = 'Rank';
 $string['skillscard:addinstance'] = 'Add a new course/site summary block';
