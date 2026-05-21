@@ -26,6 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version      = 2022091901; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version      = 2026052100; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires     = 2022041200; // Requires this Moodle version.
 $plugin->component    = 'block_skillscard';

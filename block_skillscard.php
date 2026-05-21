@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Skills Card block
+ * Skills Card block.
  *
  * @package    block_skillscard
  * @copyright  2022 Tengku Alauddin <din@pukunui.com>
@@ -24,15 +24,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * Skills Card block implementation.
+ */
 class block_skillscard extends block_base {
+    /**
+     * Initialise the block title.
+     */
     public function init() {
         $this->title = get_string('skillscard', 'block_skillscard');
     }
 
+    /**
+     * Allow multiple instances of this block.
+     *
+     * @return bool
+     */
     public function instance_allow_multiple() {
-      return true;
+        return true;
     }
 
+    /**
+     * Get the block content.
+     *
+     * @return stdClass|null
+     */
     public function get_content() {
         global $USER, $DB;
 
@@ -44,47 +60,44 @@ class block_skillscard extends block_base {
         $user = $USER;
 
         // Load user.
-        if (is_siteadmin() && $id){
-            $user = $DB->get_record('user', array('id' => $id), '*', MUST_EXIST);
-        } else if ($id){
+        if (is_siteadmin() && $id) {
+            $user = $DB->get_record('user', ['id' => $id], '*', MUST_EXIST);
+        } else if ($id) {
             return;
         }
 
-        $this->content         =  new stdClass;
+        $this->content         = new stdClass();
         $this->content->text   = '';
         $this->content->footer = '';
-        
-        //Get data
-        $sql = 'SELECT COALESCE(c.scaleid, cf.scaleid, 0) AS scaleidx, c.shortname as compname, mc.grade as grade 
-        FROM {competency_usercomp} mc
-        JOIN {user} mu on mu.id = mc.userid
-        JOIN {competency} c on c.id = mc.competencyid
-        LEFT JOIN {competency_framework} cf on cf.id = c.competencyframeworkid
-        WHERE mc.userid = :userid
-        order by mc.userid';
 
-        $skillscard = $DB->get_records_sql($sql, array('userid' => $user->id));
-        if (empty($skillscard)){
+        // Get data.
+        $sql = "SELECT COALESCE(c.scaleid, cf.scaleid, 0) AS scaleidx, c.shortname as compname, mc.grade as grade
+                  FROM {competency_usercomp} mc
+                  JOIN {user} mu on mu.id = mc.userid
+                  JOIN {competency} c on c.id = mc.competencyid
+             LEFT JOIN {competency_framework} cf on cf.id = c.competencyframeworkid
+                 WHERE mc.userid = :userid
+              ORDER BY mc.userid";
+
+        $skillscard = $DB->get_records_sql($sql, ['userid' => $user->id]);
+        if (empty($skillscard)) {
             $this->content->text = get_string('noskillscard', 'block_skillscard');
             return $this->content;
         }
 
-        //render data
+        // Render data.
         $li = '<ul style="list-style: none;">';
-        foreach ($skillscard as $sc){
-            $scales = ($values = $DB->get_field('scale', 'scale', ['id'=>($sc->scaleidx)])) ? explode(',', $values) : [];
-            $grade = $scales[$sc->grade-1];
+        foreach ($skillscard as $sc) {
             $skill = format_text($sc->compname, FORMAT_PLAIN);
-            $li .= '<li text-align : center><span><i class="fa fa-trophy fa-5x text-primary" 
-            style="float:left; padding: 10px;"></i></span><br>'. get_string('rank', 'block_skillscard') . " " . 
-            $grade . '<br>' . get_string('competency', 'block_skillscard') . ' ' . $skill . '</li>
-            <div style="clear:both;"></div>';
+            $li .= '<li text-align : center><span><i class="fa fa-trophy fa-5x text-primary"';
+            $li .= ' style="float:left; padding: 10px;"></i></span><br>';
+            $li .= get_string('competency', 'block_skillscard') . ' ' . $skill . '</li>';
+            $li .= '<div style="clear:both;"></div>';
         }
 
         $li .= '</ul>';
 
         $this->content->text .= $li;
-        // $this->content->footer = html_writer::empty_tag('br');
         return $this->content;
     }
 }

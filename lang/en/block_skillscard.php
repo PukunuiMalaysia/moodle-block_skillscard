@@ -25,7 +25,7 @@
  */
 
 $string['pluginname'] = 'Skills Card plugin';
-$string['skillscard'] = 'Skills Card';
+$string['skillscard'] = 'Completed Courses';
 $string['noskillscard'] = 'No skills card';
 $string['competency'] = 'Competency';
 $string['rank'] = 'Rank';
