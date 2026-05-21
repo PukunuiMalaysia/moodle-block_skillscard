@@ -86,18 +86,28 @@ class block_skillscard extends block_base {
         }
 
         // Render data.
-        $li = '<ul style="list-style: none;">';
+        $items = '';
         foreach ($skillscard as $sc) {
+            $values = $DB->get_field('scale', 'scale', ['id' => $sc->scaleidx]);
+            $scales = $values ? explode(',', $values) : [];
+            $grade = $scales[$sc->grade - 1] ?? '';
             $skill = format_text($sc->compname, FORMAT_PLAIN);
-            $li .= '<li text-align : center><span><i class="fa fa-trophy fa-5x text-primary"';
-            $li .= ' style="float:left; padding: 10px;"></i></span><br>';
-            $li .= get_string('competency', 'block_skillscard') . ' ' . $skill . '</li>';
-            $li .= '<div style="clear:both;"></div>';
+
+            $icon = html_writer::tag('i', '', [
+                'class' => 'fa fa-trophy fa-5x text-primary',
+                'style' => 'float: left; padding: 10px;',
+            ]);
+            $content = html_writer::tag('span', $icon) . html_writer::empty_tag('br');
+            if ($grade !== '') {
+                $content .= get_string('rank', 'block_skillscard') . ' ' . s($grade) . html_writer::empty_tag('br');
+            }
+            $content .= get_string('competency', 'block_skillscard') . ' ' . $skill;
+
+            $items .= html_writer::tag('li', $content, ['style' => 'text-align: center;']);
+            $items .= html_writer::tag('div', '', ['style' => 'clear: both;']);
         }
 
-        $li .= '</ul>';
-
-        $this->content->text .= $li;
+        $this->content->text .= html_writer::tag('ul', $items, ['style' => 'list-style: none;']);
         return $this->content;
     }
 }
