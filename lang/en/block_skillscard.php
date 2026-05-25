@@ -24,11 +24,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Skills card';
-$string['skillscard'] = 'Skills card';
-$string['noskillscard'] = 'No competencies';
 $string['competency'] = 'Competency';
+$string['noskillscard'] = 'No competencies';
+$string['pluginname'] = 'Skills card';
+$string['privacy:metadata'] = 'The Skills card block only shows information about courses and does not store data itself.';
 $string['rank'] = 'Rank';
+$string['skillscard'] = 'Skills card';
 $string['skillscard:addinstance'] = 'Add a new Skills card block';
 $string['skillscard:myaddinstance'] = 'Add a new Skills card block to the Dashboard';
-$string['privacy:metadata'] = 'The Skills card block only shows information about courses and does not store data itself.';
